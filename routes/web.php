@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\HelloController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,5 @@ Route::controller(HelloController::class)->group(function() {
     Route::get('/hello/list', 'list');
     Route::get('/hello/conf', 'conf');
 });
+
+Route::resource('books', BookController::class);

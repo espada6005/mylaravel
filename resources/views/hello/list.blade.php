@@ -21,8 +21,8 @@
         <td>{{ $book->title }}</td>
         <td>{{ $book->price }}円</td>
         <td>{{ $book->publisher }}</td>
-        <td>{{ $book->published }}</td>
-        {{-- <td>{{ $book->published->format('Y-m-d') }}</td> --}}
+        {{-- <td>{{ $book->published }}</td> --}}
+        <td>{{ $book->published->format('Y-m-d') }}</td>
         <td>{{ $book->sample ? '○' : '×' }}</td>
     </tr>
 @endforeach
