@@ -1,0 +1,21 @@
+<x-layout>
+    @switch($random)
+        @case(5)
+            <p>今日は最高の運勢！何でもうまくいくでしょう！</p>
+            @break
+        @case(4)
+            <p>良いことが起こりそうな予感。積極的に行動してみて！</p>
+            @break
+        @case(3)
+            <p>平凡な一日ですが、穏やかに過ごせそうです。</p>
+            @break
+        @case(2)
+            <p>少し注意が必要な日。無理せず慎重に。</p>
+            @break
+        @case(1)
+            <p>今日は運気が低め。リラックスして過ごしましょう。</p>
+            @break
+        @default
+            <p>。。。</p>
+    @endswitch
+</x-layout>

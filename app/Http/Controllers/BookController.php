@@ -13,6 +13,8 @@ class BookController extends Controller
     public function index()
     {
         return view('books.index', ['books' => Book::all()]);
+        // return view('books.index_while', ['books' => Book::all()]);
+        // return view('books.index_for', ['books' => Book::all()]);
     }
 
     /**
@@ -40,11 +42,11 @@ class BookController extends Controller
      */
     // public function show(int $book)
     // {
-    //     // $b = Book::find($book, ['*']);
+    //     $b = Book::find($book, ['*']);
     //     // $b = Book::findOr($book, ['*'], function () {
     //     //     abort(404);
     //     // });
-    //     $b = Book::findOrFail($book);
+    //     // $b = Book::findOrFail($book);
     //     return view('books.show', ['book' => $b]);
     // }
 
@@ -68,6 +70,7 @@ class BookController extends Controller
     {
         $book->fill($request->only('isbn', 'title', 'price',
             'publisher', 'published', 'sample'))->save();
+
         return to_route('books.index');
     }
 
@@ -77,6 +80,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
         return to_route('books.index');
     }
 }

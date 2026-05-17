@@ -44,9 +44,9 @@
             </dd>
         </dl>
 
-        {{-- @unless($book->sample)
+        @unless($book->sample)
             <div class="alert alert-danger">本書では提供サンプルはありません。</div>
-        @endunless --}}
+        @endunless
 
         {{-- <div>
             <a href="{{ route('books.index') }}" class="btn btn-secondary">一覧に戻る</a>
@@ -64,9 +64,9 @@
             </button>
         </form>
     {{-- @else
-        <div class="alert alert-danger">書籍情報が存在しません。</div> --}}
+        <div class="alert alert-danger">書籍情報が存在しません。</div>
     @endisset
-    {{-- @empty($book)
+    @empty($book)
         <div class="alert alert-danger">書籍情報が存在しません。</div>
     @endempty --}}
 </x-layout>

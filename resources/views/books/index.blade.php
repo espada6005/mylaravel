@@ -24,16 +24,16 @@
         @foreach ($books as $book)
         {{-- @foreach ($books as $id => $book) --}}
         {{-- @forelse ($books as $book) --}}
-            {{-- @break($loop->iteration > 5) --}}
+            @break($loop->iteration > 5)
             {{-- @if ($loop->iteration > 5)
                 @break
             @endif --}}
-            {{-- @continue(!$book->sample) --}}
+            @continue(!$book->sample)
             <tr>
                 {{-- <td>{{ $loop->index + 1 }}</td> --}}
                 <td>{{ $book->isbn }}</td>
-                <td>{{ $book->title }}</td>
-                {{-- <td>
+                {{-- <td>{{ $book->title }}</td> --}}
+                <td>
                 @if ($book->published->greaterThan(now()))
                 ［刊行予定］
                 @elseif($book->published->greaterThan(now()->subMonth()))
@@ -43,19 +43,19 @@
                 @else
                 ［旧作］
                 @endif
-                {{ $book->title }}</td> --}}
+                {{ $book->title }}</td>
                 <td>{{ $book->price }}円</td>
                 <td>{{ $book->publisher }}</td>
                 {{-- <td>{{ $book->published }}</td> --}}
                 <td>{{ $book->published->format('Y-m-d') }}</td>
-                <td>{{ $book->sample ? '○' : '×' }}</td>
-                {{-- <td>
+                {{-- <td>{{ $book->sample ? '○' : '×' }}</td> --}}
+                <td>
                 @if ($book->sample)
                     <img src="/images/download.png" alt="ダウンロード" />
                 @else
                     －
                 @endif
-                </td> --}}
+                </td>
                 <td>
                     <a href="{{ route('books.show', $book->id) }}">詳細</a>｜
                     {{-- <a href="{{ route('books.show', [ 'book' => $book->id ]) }}">詳細</a>｜ --}}

@@ -21,9 +21,9 @@
 {{ $slot }}
 
 {{-- @env('local')
-<footer class="alert-info">
-    This is local environment.
-</footer>
+    <footer class="alert-info">
+        This is local environment.
+    </footer>
 @endenv --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @stack('scripts')
