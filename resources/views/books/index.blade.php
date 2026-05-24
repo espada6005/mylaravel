@@ -24,11 +24,11 @@
         @foreach ($books as $book)
         {{-- @foreach ($books as $id => $book) --}}
         {{-- @forelse ($books as $book) --}}
-            @break($loop->iteration > 5)
+{{--            @break($loop->iteration > 5)--}}
             {{-- @if ($loop->iteration > 5)
                 @break
             @endif --}}
-            @continue(!$book->sample)
+{{--            @continue(!$book->sample)--}}
             <tr>
                 {{-- <td>{{ $loop->index + 1 }}</td> --}}
                 <td>{{ $book->isbn }}</td>
@@ -69,5 +69,5 @@
         @endforelse --}}
         </tbody>
     </table>
-    {{-- {{ $books->links() }} --}}
+{{--     {{ $books->links() }}--}}
 </x-layout>

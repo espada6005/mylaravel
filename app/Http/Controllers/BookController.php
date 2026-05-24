@@ -33,27 +33,28 @@ class BookController extends Controller
         $book = new Book;
         $book->fill($request->only('isbn', 'title', 'price',
             'publisher', 'published', 'sample'))->save();
-
+//        $book = Book::create($request->only('isbn', 'title', 'price',
+//            'publisher', 'published', 'sample'));
         return to_route('books.index');
     }
 
     /**
      * Display the specified resource.
      */
-    // public function show(int $book)
-    // {
-    //     $b = Book::find($book, ['*']);
-    //     // $b = Book::findOr($book, ['*'], function () {
-    //     //     abort(404);
-    //     // });
-    //     // $b = Book::findOrFail($book);
-    //     return view('books.show', ['book' => $b]);
-    // }
-
-    public function show(Book $book)
+    public function show(int $book)
     {
-        return view('books.show', ['book' => $book]);
+        $b = Book::find($book);
+        // $b = Book::findOr($book, ['*'], function () {
+        //     abort(404);
+        // });
+        // $b = Book::findOrFail($book);
+        return view('books.show', ['book' => $b]);
     }
+
+    // public function show(Book $book)
+    // {
+    //     return view('books.show', ['book' => $book]);
+    // }
 
     /**
      * Show the form for editing the specified resource.

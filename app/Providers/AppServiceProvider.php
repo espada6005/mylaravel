@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -49,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
             // $view->with('appName', 'Laravel実践入門');
         });
+
+        Paginator::useBootstrapFive();
     }
 }

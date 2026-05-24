@@ -63,10 +63,10 @@
                 削除
             </button>
         </form>
-    {{-- @else
+    @else
         <div class="alert alert-danger">書籍情報が存在しません。</div>
     @endisset
-    @empty($book)
+    {{-- @empty($book)
         <div class="alert alert-danger">書籍情報が存在しません。</div>
     @endempty --}}
 </x-layout>
