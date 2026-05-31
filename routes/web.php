@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\QueryController;
+use App\Http\Controllers\RelationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +90,41 @@ Route::controller(QueryController::class)->group(function () {
     Route::get('/query/force_delete', 'forceDelete');
     Route::get('/query/restore', 'restore');
     Route::get('/query/trans', 'trans');
+
+    Route::controller(RelationController::class)->group(function () {
+        Route::get('/relation/belong', 'belong');
+        Route::get('/relation/has_many', 'hasMany');
+        Route::get('/relation/has_one', 'hasOne');
+        Route::get('/relation/belongs_many', 'belongsMany');
+        Route::get('/relation/has_many_through', 'hasManyThrough');
+        Route::get('/relation/latest_of_many', 'latestOfMany');
+        Route::get('/relation/of_many', 'ofMany');
+        Route::get('/relation/pivot', 'pivot');
+        Route::get('/relation/morph_one', 'morphOne');
+        Route::get('/relation/morph_many', 'morphMany');
+        Route::get('/relation/morph_reverse', 'morphReverse');
+        Route::get('/relation/morph_to_many', 'morphToMany');
+        Route::get('/relation/rel_query', 'relQuery');
+        Route::get('/relation/or_where', 'orWhere');
+        Route::get('/relation/where_belong', 'whereBelong');
+        Route::get('/relation/where_belong_multi', 'whereBelongMulti');
+        Route::get('/relation/has', 'has');
+        Route::get('/relation/where_has_morph', 'whereHasMorph');
+        Route::get('/relation/with', 'with');
+        Route::get('/relation/with_count', 'withCount');
+        Route::get('/relation/with_count_alias', 'withCountAlias');
+        Route::get('/relation/with_avg', 'withAvg');
+        Route::get('/relation/save', 'save');
+        Route::get('/relation/save_many', 'saveMany');
+        Route::get('/relation/create', 'create');
+        Route::get('/relation/push', 'push');
+        Route::get('/relation/associate', 'associate');
+        Route::get('/relation/attach', 'attach');
+        Route::get('/relation/detach', 'detach');
+        Route::get('/relation/sync', 'sync');
+        Route::get('/relation/toggle', 'toggle');
+        Route::get('/relation/update', 'update');
+    });
 
     Route::resource('reviews', ReviewController::class);
 

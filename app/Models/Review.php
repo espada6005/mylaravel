@@ -33,8 +33,8 @@ class Review extends Model
 
     public function book(): BelongsTo
     {
-        return $this->belongsTo(Book::class);
-        // return $this->belongsTo(Book::class, 'f_isbn', 'isbn');
+//        return $this->belongsTo(Book::class);
+         return $this->belongsTo(Book::class, 'f_isbn', 'isbn');
         // return $this->belongsTo(Book::class, 'f_isbn');
     }
 

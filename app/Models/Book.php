@@ -32,7 +32,7 @@ class Book extends Model
         'sample' => false,
     ];
 
-    // protected $primaryKey = 'isbn';
+//     protected $primaryKey = 'isbn';
     // protected $keyType = 'string';
     // public $incrementing = false;
     // protected $hidden = ['id', 'deleted_at'];
@@ -49,19 +49,19 @@ class Book extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
-        // return $this->hasMany(Review::class, 'f_isbn', 'isbn');
+//         return $this->hasMany(Review::class, 'f_isbn', 'isbn');
     }
 
     public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class);
-        // return $this->belongsToMany(Author::class)
-        //     ->withPivot('hidden', 'order');
+         return $this->belongsToMany(Author::class)
+             ->withPivot('hidden', 'order');
         // return $this->belongsToMany(Author::class)->withTimestamps();
-        // return $this->belongsToMany(Author::class)
-        //     ->wherePivot('hidden', false);
-        // return $this->belongsToMany(Author::class)
-        //     ->orderByPivot('order');
+//         return $this->belongsToMany(Author::class)
+////             ->wherePivot('hidden', false);
+//         return $this->belongsToMany(Author::class)
+//             ->orderByPivot('order');
     }
 
     public function memo(): MorphOne

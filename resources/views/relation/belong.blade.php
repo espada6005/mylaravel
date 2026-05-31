@@ -1,0 +1,5 @@
+<x-layout>
+    <h2>「{{ $review->book->title }}」のレビュー</h2>
+    <hr />
+    <p>{{ $review->body }} （{{ $review->updated_at }}）</p>
+</x-layout>
