@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Casts\AddressType;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
+use Illuminate\Database\Eloquent\Casts\AsStringable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use InvalidArgumentException;
 
 class Member extends Model
 {
@@ -83,10 +87,37 @@ class Member extends Model
     protected function formattedName(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attrs) =>
-            "{$attrs['name']} （{$attrs['name_kana']}）"
+            get: fn(mixed $value, array $attrs) => "{$attrs['name']} （{$attrs['name_kana']}）"
         );
     }
+
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn(?string $value) => mb_convert_case($value, MB_CASE_LOWER),
+            // set: fn (string $value) => mb_convert_case($value, MB_CASE_LOWER)
+            set: function (string $value) {
+                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    throw new InvalidArgumentException("Invalid email: {$value}");
+                }
+                return mb_convert_case($value, MB_CASE_LOWER);
+            }
+        );
+    }
+
+     protected function address(): Attribute
+     {
+         return Attribute::make(
+             get: fn (mixed $value, array $attrs) => new Address(
+                 $attrs['prefecture'], $attrs['city'], $attrs['other']
+             ),
+             set: fn (Address $value) => [
+                 'prefecture' => $value->prefecture,
+                 'city' => $value->city,
+                 'other' => $value->other
+             ],
+         );
+     }
 
     protected function casts(): array
     {
@@ -99,8 +130,8 @@ class Member extends Model
             'info' => 'array',
             // 'info' => AsArrayObject::class,
 
-            // 'debut' => 'date',
-            // 'password' => HashType::class,
+            'debut' => 'date',
+            'password' => HashType::class,
 
             // 自作のキャストクラスを使う場合
             // 'address' => AddressType::class,

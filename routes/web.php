@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\ModelController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\RelationController;
 use App\Http\Controllers\ReviewController;
@@ -124,6 +125,19 @@ Route::controller(QueryController::class)->group(function () {
         Route::get('/relation/sync', 'sync');
         Route::get('/relation/toggle', 'toggle');
         Route::get('/relation/update', 'update');
+    });
+
+    Route::controller(ModelController::class)->group(function () {
+        Route::get('/model/accessor_basic', 'accessorBasic');
+        Route::get('/model/accessor_multi', 'accessorMulti');
+        Route::get('/model/mutator_basic', 'mutatorBasic');
+        Route::get('/model/mutator_valid', 'mutatorValid');
+        Route::get('/model/mutator_multi', 'mutatorMulti');
+        Route::get('/model/cast_stringable', 'castStringable');
+        Route::get('/model/cast_encrypt', 'castEncrypt');
+        Route::get('/model/cast_array', 'castArray');
+        Route::get('/model/cast_enum', 'castEnum');
+        Route::get('/model/cast_address', 'castAddress');
     });
 
     Route::resource('reviews', ReviewController::class);
