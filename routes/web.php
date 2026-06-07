@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CtrlController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\QueryController;
@@ -16,7 +17,7 @@ Route::get('/', function () {
 
 // Route::get('/hello', [ HelloController::class, 'index' ]);
 
-Route::controller(HelloController::class)->group(function() {
+Route::controller(HelloController::class)->group(function () {
     Route::get('/hello', 'index');
     Route::get('/hello/show', 'show');
     Route::get('/hello/list', 'list');
@@ -91,74 +92,95 @@ Route::controller(QueryController::class)->group(function () {
     Route::get('/query/force_delete', 'forceDelete');
     Route::get('/query/restore', 'restore');
     Route::get('/query/trans', 'trans');
-
-    Route::controller(RelationController::class)->group(function () {
-        Route::get('/relation/belong', 'belong');
-        Route::get('/relation/has_many', 'hasMany');
-        Route::get('/relation/has_one', 'hasOne');
-        Route::get('/relation/belongs_many', 'belongsMany');
-        Route::get('/relation/has_many_through', 'hasManyThrough');
-        Route::get('/relation/latest_of_many', 'latestOfMany');
-        Route::get('/relation/of_many', 'ofMany');
-        Route::get('/relation/pivot', 'pivot');
-        Route::get('/relation/morph_one', 'morphOne');
-        Route::get('/relation/morph_many', 'morphMany');
-        Route::get('/relation/morph_reverse', 'morphReverse');
-        Route::get('/relation/morph_to_many', 'morphToMany');
-        Route::get('/relation/rel_query', 'relQuery');
-        Route::get('/relation/or_where', 'orWhere');
-        Route::get('/relation/where_belong', 'whereBelong');
-        Route::get('/relation/where_belong_multi', 'whereBelongMulti');
-        Route::get('/relation/has', 'has');
-        Route::get('/relation/where_has_morph', 'whereHasMorph');
-        Route::get('/relation/with', 'with');
-        Route::get('/relation/with_count', 'withCount');
-        Route::get('/relation/with_count_alias', 'withCountAlias');
-        Route::get('/relation/with_avg', 'withAvg');
-        Route::get('/relation/save', 'save');
-        Route::get('/relation/save_many', 'saveMany');
-        Route::get('/relation/create', 'create');
-        Route::get('/relation/push', 'push');
-        Route::get('/relation/associate', 'associate');
-        Route::get('/relation/attach', 'attach');
-        Route::get('/relation/detach', 'detach');
-        Route::get('/relation/sync', 'sync');
-        Route::get('/relation/toggle', 'toggle');
-        Route::get('/relation/update', 'update');
-    });
-
-    Route::controller(ModelController::class)->group(function () {
-        Route::get('/model/accessor_basic', 'accessorBasic');
-        Route::get('/model/accessor_multi', 'accessorMulti');
-        Route::get('/model/mutator_basic', 'mutatorBasic');
-        Route::get('/model/mutator_valid', 'mutatorValid');
-        Route::get('/model/mutator_multi', 'mutatorMulti');
-        Route::get('/model/cast_stringable', 'castStringable');
-        Route::get('/model/cast_encrypt', 'castEncrypt');
-        Route::get('/model/cast_array', 'castArray');
-        Route::get('/model/cast_enum', 'castEnum');
-        Route::get('/model/cast_address', 'castAddress');
-    });
-
-    Route::resource('reviews', ReviewController::class);
-
-    Route::resource('articles', ArticleController::class, [
-        // 'only' => ['index', 'show']
-
-        // 'except' => ['create', 'store', 'edit', 'update', 'destroy'],
-
-        // 'names' => [
-        //     'index' => 'articles',
-        //     'show' => 'articles.detail'
-        // ],
-
-        // 'parameters' => [
-        //     'articles' => 'id'
-        // ],
-
-        // 'wheres' => [
-        //     'article' => '\d{3,5}'
-        // ]
-    ]);
-
 });
+
+Route::controller(RelationController::class)->group(function () {
+    Route::get('/relation/belong', 'belong');
+    Route::get('/relation/has_many', 'hasMany');
+    Route::get('/relation/has_one', 'hasOne');
+    Route::get('/relation/belongs_many', 'belongsMany');
+    Route::get('/relation/has_many_through', 'hasManyThrough');
+    Route::get('/relation/latest_of_many', 'latestOfMany');
+    Route::get('/relation/of_many', 'ofMany');
+    Route::get('/relation/pivot', 'pivot');
+    Route::get('/relation/morph_one', 'morphOne');
+    Route::get('/relation/morph_many', 'morphMany');
+    Route::get('/relation/morph_reverse', 'morphReverse');
+    Route::get('/relation/morph_to_many', 'morphToMany');
+    Route::get('/relation/rel_query', 'relQuery');
+    Route::get('/relation/or_where', 'orWhere');
+    Route::get('/relation/where_belong', 'whereBelong');
+    Route::get('/relation/where_belong_multi', 'whereBelongMulti');
+    Route::get('/relation/has', 'has');
+    Route::get('/relation/where_has_morph', 'whereHasMorph');
+    Route::get('/relation/with', 'with');
+    Route::get('/relation/with_count', 'withCount');
+    Route::get('/relation/with_count_alias', 'withCountAlias');
+    Route::get('/relation/with_avg', 'withAvg');
+    Route::get('/relation/save', 'save');
+    Route::get('/relation/save_many', 'saveMany');
+    Route::get('/relation/create', 'create');
+    Route::get('/relation/push', 'push');
+    Route::get('/relation/associate', 'associate');
+    Route::get('/relation/attach', 'attach');
+    Route::get('/relation/detach', 'detach');
+    Route::get('/relation/sync', 'sync');
+    Route::get('/relation/toggle', 'toggle');
+    Route::get('/relation/update', 'update');
+});
+
+Route::controller(ModelController::class)->group(function () {
+    Route::get('/model/accessor_basic', 'accessorBasic');
+    Route::get('/model/accessor_multi', 'accessorMulti');
+    Route::get('/model/mutator_basic', 'mutatorBasic');
+    Route::get('/model/mutator_valid', 'mutatorValid');
+    Route::get('/model/mutator_multi', 'mutatorMulti');
+    Route::get('/model/cast_stringable', 'castStringable');
+    Route::get('/model/cast_encrypt', 'castEncrypt');
+    Route::get('/model/cast_array', 'castArray');
+    Route::get('/model/cast_enum', 'castEnum');
+    Route::get('/model/cast_address', 'castAddress');
+});
+
+Route::controller(CtrlController::class)->group(function () {
+    Route::get('/ctrl/plain', 'plain');
+    Route::get('/ctrl/header', 'header');
+    Route::get('/ctrl/out_json', 'outJson');
+    Route::get('/ctrl/model_json', 'modelJson');
+    Route::get('/ctrl/download', 'download');
+    Route::get('/ctrl/path_ng', 'pathNg');
+    Route::get('/ctrl/download_stream', 'downloadStream');
+    Route::get('/ctrl/redirect_basic', 'redirectBasic');
+    Route::get('/ctrl/input', 'input');
+    Route::get('/ctrl/input_type', 'inputType');
+    Route::get('/ctrl/req_headers', 'reqHeaders');
+    Route::get('/ctrl/upload_form', 'uploadForm');
+    Route::post('/ctrl/upload_process', 'uploadProcess');
+    Route::get('/ctrl/download_file/{photo}', 'downloadFile');
+    Route::get('/ctrl/cookie_form', 'cookieForm');
+    Route::post('/ctrl/cookie_process', 'cookieProcess');
+    Route::get('/ctrl/delete_cookie', 'deleteCookie');
+    Route::get('/ctrl/pdf', 'pdf');
+});
+
+Route::resource('reviews', ReviewController::class);
+
+Route::resource('articles', ArticleController::class, [
+    // 'only' => ['index', 'show']
+
+    // 'except' => ['create', 'store', 'edit', 'update', 'destroy'],
+
+    // 'names' => [
+    //     'index' => 'articles',
+    //     'show' => 'articles.detail'
+    // ],
+
+    // 'parameters' => [
+    //     'articles' => 'id'
+    // ],
+
+    // 'wheres' => [
+    //     'article' => '\d{3,5}'
+    // ]
+]);
+
