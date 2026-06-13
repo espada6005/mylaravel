@@ -4,6 +4,8 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\WebProcessor;
 
 return [
 
@@ -51,6 +53,20 @@ return [
     */
 
     'channels' => [
+        'database' => [
+            'driver' => 'custom',
+            'via' => App\Logging\DatabaseLogger::class,
+            'level' => env('LOG_LEVEL', 'debug'),
+            'processors' => [
+                MemoryUsageProcessor::class,
+                [
+                    'processor' => WebProcessor::class,
+                    'with' => [
+                        'extraFields' => ['ip', 'user_agent'],
+                    ],
+                ],
+            ],
+        ],
 
         'stack' => [
             'driver' => 'stack',
@@ -76,7 +92,7 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => env('LOG_SLACK_USERNAME', env('APP_NAME', 'Laravel')),
+            'username' => env('LOG_SLACK_USERNAME', 'Laravel Log'),
             'emoji' => env('LOG_SLACK_EMOJI', ':boom:'),
             'level' => env('LOG_LEVEL', 'critical'),
             'replace_placeholders' => true,
@@ -89,9 +105,8 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
-            'processors' => [PsrLogMessageProcessor::class],
         ],
 
         'stderr' => [
@@ -101,8 +116,32 @@ return [
             'handler_with' => [
                 'stream' => 'php://stderr',
             ],
-            'formatter' => env('LOG_STDERR_FORMATTER'),
-            'processors' => [PsrLogMessageProcessor::class],
+            // 'formatter' => env('LOG_STDERR_FORMATTER'),
+            // 'formatter' => \Monolog\Formatter\LineFormatter::class,
+            // 'formatter_with' => [
+            //     'format' => "%datetime% %channel%.%level_name%>> %message% %context% %extra%\n",
+            //     'dateFormat' => 'Y年m月d日 H時i分s秒',
+            // ],
+            // 'formatter' => \Bramus\Monolog\Formatter\ColoredLineFormatter::class,
+            // 'processors' => [PsrLogMessageProcessor::class],
+            // 'processors' => [\Monolog\Processor\WebProcessor::class],
+            // 'processors' => [
+            //     [
+            //         'processor' => \Monolog\Processor\WebProcessor::class,
+            //         'with' => [
+            //             'extraFields' => ['ip', 'user_agent'],
+            //             // 'extraFields' => [
+            //             //     'ip' => 'REQUEST_ADDR',
+            //             //     'user_agent' => 'HTTP_USER_AGENT',
+            //             //     'req_time' => 'REQUEST_TIME'
+            //             // ],
+            //         ]
+            //     ],
+            //     // [
+            //     //     'processor' => \App\Logging\RefererProcessor::class,
+            //     //     'with' => ['key' => 'ref'],
+            //     // ]
+            // ],
         ],
 
         'syslog' => [
@@ -127,6 +166,11 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'browser' => [
+            'driver' => 'monolog',
+            'handler' => Monolog\Handler\BrowserConsoleHandler::class,
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
     ],
-
 ];

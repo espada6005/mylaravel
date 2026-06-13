@@ -2,12 +2,18 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CtrlController;
+use App\Http\Controllers\CycleController;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\MiddleController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\RelationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RouteController;
+use App\Http\Controllers\SingleController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -163,7 +169,55 @@ Route::controller(CtrlController::class)->group(function () {
     Route::get('/ctrl/pdf', 'pdf');
 });
 
+Route::controller(CycleController::class)->group(function () {
+    Route::view('/cycle/inject', 'cycle.inject');
+    Route::get('/cycle/srv', 'srv');
+    Route::get('/cycle/srv_multi', 'srvMulti');
+    Route::get('/cycle/srv_my', 'srvMy');
+    Route::get('/cycle/srv_tag', 'srvTag');
+    Route::get('/cycle/facade_basic', 'facadeBasic');
+});
+
 Route::resource('reviews', ReviewController::class);
+
+Route::controller(LogController::class)
+    // ->middleware([LogMiddleware::class])
+    // ->middleware(LogMiddleware::class)
+    ->group(function () {
+        Route::get('/log/log_basic', 'logBasic')->name('logBasic');
+        // Route::get('/log/log_basic', 'logBasic')
+        //     ->withoutMiddleware(LogMiddleware::class);
+        Route::get('/log/trigger', 'trigger');
+        Route::view('/log/transfer', 'log.transfer');
+    });
+
+Route::controller(RouteController::class)->group(function () {
+    Route::post('/route/process', 'process');
+    // Route::any('/route/any', 'any');
+
+    Route::get('/route/param/{id?}', 'param');
+    // Route::get('/route/param/{id}', 'param')
+    //     ->where('id', '\d{3,5}');
+    // ->where(['id' => '\d{3,5}']);
+    // ->whereNumber('id');
+    Route::get('/route/search/{keyword}', 'search')
+        ->where('keyword', '.*');
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/manage', 'manage');
+        Route::get('/role', 'role');
+    });
+});
+
+// Route::prefix('/admin')->controller(RouteController::class)->group(function () {
+//   Route::get('/manage', 'manage');
+//   Route::get('/role', 'role');
+// });
+
+// Route::middleware('throttle:3,1')->controller(RouteController::class)->group(function () {
+//     Route::get('/manage', 'manage');
+//     Route::get('/role', 'role');
+// });
 
 Route::resource('articles', ArticleController::class, [
     // 'only' => ['index', 'show']
@@ -183,4 +237,80 @@ Route::resource('articles', ArticleController::class, [
     //     'article' => '\d{3,5}'
     // ]
 ]);
+
+// Route::resource('articles', ArticleController::class)
+//     ->only('index', 'show');
+//     // ->only(['index', 'show']);
+//     // ->name('index', 'articles')
+//     // ->parameter('articles', 'id');
+
+Route::resource('articles.comments', CommentController::class, [
+    // 'shallow' => true
+]);
+
+// Route::controller(HelloController::class)
+//     ->prefix('/hello')->group(function () {
+//         Route::get('', 'index');
+//         Route::get('/show', 'show');
+//         Route::get('/list', 'list');
+//     });
+
+Route::name('hello.')->controller(HelloController::class)->group(function () {
+    // Route::get('/hello', 'index')->name('index');
+    //     Route::get('/hello/show', 'show')->name('show');
+    //     Route::get('/hello/list', 'list')->name('list');
+});
+
+Route::view('/route/view', 'hello.show',
+    ['message' => 'こんにちは、世界！']);
+
+// Route::redirect('/articles/{id}', '/c/{id}');
+// Route::get('/c/{id}', function ($id) {
+//     return "記事id：{$id}";
+// });
+
+Route::get('/single', SingleController::class);
+
+Route::controller(MiddleController::class)->group(function () {
+    Route::get('/middle/index', 'index');
+    Route::get('/middle/hoge', 'hoge');
+});
+
+// Route::get('/hello', [HelloController::class, 'index'])
+//     ->middleware([LogMiddleware::class]);
+
+// Route::resource('books', BookController::class)
+//     ->middleware([LogMiddleware::class]);
+
+// Route::get('/hello', [HelloController::class, 'index'])
+//     ->middleware('exam');
+
+// Route::get('/hello', [HelloController::class, 'index'])
+//     ->middleware('log');
+
+// 11章
+Route::view('/i18n/greet', 'i18n.greet');
+
+// Route::group(['prefix' => '/{locale}', 'middleware' => 'I18nMiddleware'], function () {
+//     Route::view('/i18n/greet', 'i18n.greet');
+// });
+
+// Route::prefix('{locale}')
+//     ->middleware(I18nMiddleware::class)
+//     ->group(function () {
+//         Route::view('/i18n/greet', 'i18n.greet');
+//     });
+
+Route::view('/i18n/hello', 'i18n.hello');
+Route::view('/i18n/mail', 'i18n.mail');
+
+Route::resource('members', MemberController::class);
+Route::controller(OtherController::class)->group(function () {
+    Route::get('/other/queue_name', 'queueName');
+    Route::get('/other/subscribe_event','subscribeEvent');
+});
+
+Route::fallback(function () {
+    return view('route.404');
+});
 

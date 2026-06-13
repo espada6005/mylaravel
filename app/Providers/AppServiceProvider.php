@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Route::pattern('id', '\d{3,5}');
         Blade::withoutDoubleEncoding();
-
         Blade::directive('formatDatetime', function (string $type) {
             return <<<CODE
             <?php
@@ -51,6 +51,24 @@ class AppServiceProvider extends ServiceProvider
             // $view->with('appName', 'Laravel実践入門');
         });
 
+        View::creator('*', function (ViewBase $view) {
+            $view->with('subject', 'アプリタイトル');
+        });
+
+        // View::share([
+        //     'appName' => 'Laravel実践入門',
+        //     'currentYear' => now()->year,
+        // ]);
+
+        // View::composer('*', AppComposer::class);
+
         Paginator::useBootstrapFive();
+
+        // Event::listen(function (MemberRegistered $event) {
+        //     Mail::to($event->member->email)
+        //         ->send(new MemberCreated($event->member));
+        // });
+
+        // Model::preventLazyLoading(!app()->environment('production'));
     }
 }
