@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\AddressType;
+use App\Casts\HashType;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsStringable;
 use Illuminate\Database\Eloquent\Casts\Attribute;

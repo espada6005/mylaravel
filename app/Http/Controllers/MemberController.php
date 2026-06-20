@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+//use App\Events\MemberRegistered;
+//use App\Jobs\SendmailJob;
 use App\Events\MemberRegistered;
 use App\Jobs\SendmailJob;
 use App\Mail\MemberCreated;
@@ -43,12 +45,12 @@ class MemberController extends Controller
         $member = new Member();
         $member->fill($data)->save();
 
-        // Mail::to($member->email)->send(new MemberCreated($member));
+//        Mail::to($member->email)->send(new MemberCreated($member));
 
         // Mail::to($member->email)
         //     ->queue(new MemberCreated($member));
 
-        // SendmailJob::dispatch($member);
+//         SendmailJob::dispatch($member);
 
         // SendmailJob::dispatchIf($member->dm, $member);
 
@@ -58,7 +60,7 @@ class MemberController extends Controller
 
         // SendmailJob::dispatch($member)->afterCommit();
 
-        // MemberRegistered::dispatch($member);
+         MemberRegistered::dispatch($member);
 
         // MemberRegistered::dispatchIf(in_array('general', $member->roles), $member);
 
